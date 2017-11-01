@@ -1,0 +1,94 @@
+@import "../../common/stylus/mixin.styl";
+.user-address
+  width: 100%
+  height: 100%
+  position: fixed
+  z-index: 160
+  top: 0
+  left: 0
+  background-color: #f2f2f2
+  transform: translate3d(0, 0, 0)
+  &.move-enter-active, &.move-leave-active
+    transition: all 0.2s linear
+  &.move-enter, &.move-leave-to
+  	transform: translate3d(100%, 0, 0)
+  .address-content
+    width: 100%
+    position: absolute
+    top: 34px
+    left: 0
+    bottom: 48px
+    .addrList
+      padding: 10px 15px
+      position: relative
+      background-color: #fff
+      border-1px(rgba(7, 17, 27, 0.1))
+      .select, .user-right, .edit
+      	display: inline-block
+      	vertical-align: middle
+      .select
+      	.icon-gou
+      	  color: #999
+      	  font-size: 18px
+      	  &.active
+      	  	color: #00c850
+      .user-right
+      	margin-left: 8px
+      	max-width: 65%
+      	line-height: 20px
+      	.user-info
+      	  margin-bottom: 4px
+      	  .name
+      	    font-size: 16px
+      	    font-weight: 700
+      	  .sex, .tell
+      	    font-size: 14px
+      	    margin-left: 4px
+      	.addr
+      	    font-size: 14px
+      	    color: #999
+      .edit
+        position: absolute
+        right: 10px
+        top: 50%
+        transform: translate(0, -50%)
+        padding: 5px
+        .icon-edit
+          color: #999
+          font-size: 25px
+    .no-address
+      width: 100%
+      height: 34px
+      line-height: 34px
+      color: #777
+      position: absolute
+      top: 50%
+      margin-top: -17px
+      font-size: 14px
+      text-align: center
+  .add-address
+  	width: 100%
+  	position: fixed
+  	left: 0
+  	bottom: 0
+  	background-color: #fff
+  	text-align: center
+  	height: 48px
+  	line-height: 48px
+  	font-size: 0
+  	color: #0089dc
+	.icon, .text
+      display: inline-block
+      vertical-align: top
+    .icon
+      font-size: 14px
+	.text
+	  margin-left: 4px
+	  font-size: 14px
+  	  
+
+
+
+
+
+

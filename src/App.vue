@@ -7,39 +7,53 @@
       <div class="tab-item">
         <router-link to="/goods">商品</router-link>
       </div>
-      <div class="tab-item">
-        <router-link to="/ratings">评论</router-link>
-      </div>
+      
       <div class="tab-item">
         <router-link to="/seller">商家</router-link>
+      </div>
+
+      <div class="tab-item">
+        <router-link to="/userinfo">我的</router-link>
       </div>
     </div>
     <!-- content area -->
     <div class="content">
-      <router-view :seller="seller"></router-view>
+      <!-- 缓存组件(vue生命周期不会被重新加载) -->
+      <keep-alive>
+        <router-view :seller="seller"></router-view>
+      </keep-alive>
     </div>
   </div>
 </template>
 
 <script>
   import header from './components/header/header';
+  import {urlParse} from './common/js/util';
   
   const ERR_OK = 0;
 
   export default {
     data() {
       return {
-        seller: {}
+        seller: {
+          id: (() => {
+            let queryParm = urlParse();
+            // console.log(queryParm);
+            return queryParm.id;
+          })()
+        }
       };
     },
-    created() {
-      this.$http.get('/api/seller').then((response) => {
-        response = response.body;
-        if (response.errno === ERR_OK) {
-          this.seller = response.data;
-          // console.log(this.seller);
-        }
-      });
+    mounted() {
+      this.getSeller();
+    },
+    methods: {
+      getSeller() {
+        this.$http.get('/store/seller/getSellerInfo?id=' + this.seller.id).then((response) => {
+          response = response.body;
+          this.seller = Object.assign({}, this.seller, response.seller);
+        });
+      }
     },
     components: {
       'v-header': header
@@ -50,6 +64,7 @@
 <style lang="stylus" rel="stylesheet/stylus">
   @import "common/stylus/mixin.styl";
   @import "common/stylus/font.styl";
+  @import "common/stylus/fonts.styl";
 
   .tab {
     display: flex;

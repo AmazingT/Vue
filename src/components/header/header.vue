@@ -87,7 +87,7 @@
   </div>
 </template>
 
-<script type="text/ecmascript-6">
+<script>
   import star from '../star/star';
   import line from '../line/line';
 

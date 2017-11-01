@@ -1,13 +1,13 @@
 <template>
   <div class="cartControl">
   	<transition name="move">
-  		 <div class="cart-decrease" v-show="food.count>0" @click="descreaseCart">
+  		 <div class="cart-decrease" v-show="food.count>0" @click.stop="descreaseCart">
   		 	<span class="inner iconfont icon-jian"></span>
   		 </div>
   	</transition>
 
   	<div class="cart-count" v-show="food.count>0">{{food.count}}</div>
-  	<div class="cart-add iconfont icon-jia" @click="addCart"></div>
+  	<div class="cart-add iconfont icon-jia" @click.stop="addCart"></div>
   </div>
 </template>
 
@@ -21,6 +21,7 @@
       }
     },
     methods: {
+      // 商品添加事件
       addCart(event) {
         if (!event._constructed) {
           return;
@@ -38,6 +39,7 @@
         // 添加事件,用于小球动画
         this.$emit('cartAdd', event.target);
       },
+      // 商品数量减
       descreaseCart() {
         if (!event._constructed) {
           return;
