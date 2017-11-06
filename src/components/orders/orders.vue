@@ -57,8 +57,8 @@
 			</div>
 			
 			<!-- 地址信息 -->
-			<div v-show="showAddr" class="address-info">
-				<span class="address">送至：贵州省贵阳市南明区北大街1期花果园一期(松花路)</span>
+			<div v-if="showUser" class="address-info">
+				<span class="address">{{addr.address}}</span>
 			</div>
 
 			<!-- 提交订单 -->
@@ -85,7 +85,6 @@
   import BScroll from 'better-scroll';
   import userAddress from '../address/address';
   import back from '../back/back';
-  import orderDetail from '../orderDetail/orderDetail';
   import buyShop from '../buyShop/buyShop';
 
   const TITLE = '确认订单';
@@ -121,7 +120,8 @@
   	  	timeStamp: '',
   	  	nonceStr: '',
   	  	packageStr: '',
-  	  	signType: ''
+  	  	signType: '',
+  	  	orderCode: ''
 	  };
 	},
 	// 获取用户的地址信息
@@ -176,6 +176,7 @@
 		        		this.nonceStr = res.body.nonceStr;
 		        		this.packageStr = res.body.packageStr;
 		        		this.signType = res.body.signType;
+		        		this.orderCode = res.body.orderCode;
 		                this.callpay();
 		            } else {
 		            	alert("统一下单失败");
@@ -189,20 +190,32 @@
 	    }
 	  },
 	  onBridgeReady() {
+	  	let _this = this;
 	  	WeixinJSBridge.invoke('getBrandWCPayRequest', {
-                 "appId":this.appId,    				//公众号名称，由商户传入     
-                 "timeStamp":this.timeStamp,         //时间戳，自1970年以来的秒数     
-                 "nonceStr":this.nonceStr, 			//随机串     
-                 "package":this.packageStr,     
-                 "signType":this.signType,         //微信签名方式：     
-                 "paySign":this.paySign    		//微信签名 
+                 "appId": this.appId,    				//公众号名称，由商户传入     
+                 "timeStamp": this.timeStamp,         //时间戳，自1970年以来的秒数     
+                 "nonceStr": this.nonceStr, 			//随机串     
+                 "package": this.packageStr,     
+                 "signType": this.signType,         //微信签名方式：     
+                 "paySign": this.paySign    		//微信签名 
              },function(res){
-		       	 if(res.err_msg == "get_brand_wcpay_request:ok" ) {
-		           window.location.replace("/store/wxpay/success");
+
+		       	 if (res.err_msg == "get_brand_wcpay_request:ok" ){
+		           window.location.replace("/store/order/success?orderCode=" + _this.orderCode);
 		           alert('支付成功');
-		         }else if(res.err_msg == "get_brand_wcpay_request:cancel"){
-		             alert('支付取消');
-		         }else if(res.err_msg == "get_brand_wcpay_request:fail" ){
+		         } else if (res.err_msg == "get_brand_wcpay_request:cancel"){
+		            alert('支付取消');	     
+		            _this.$http.post('/store/order/deleteOrder',
+		            	{
+		            		orderCode: _this.orderCode
+		            	},
+				        {
+				          "X-Requested-With": "XMLHttpRequest"
+				        },
+				        {
+				          emulateJSON: true
+				        });
+		         } else if (res.err_msg == "get_brand_wcpay_request:fail" ){
 		            alert('支付失败');
 		         } //使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
 	        }
@@ -273,7 +286,6 @@
 	components: {
 	  userAddress,
 	  back,
-	  orderDetail,
 	  buyShop
 	}
   };

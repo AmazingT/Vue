@@ -32,14 +32,15 @@
 		<user-address @update="_getUserAddress" @delete="_getUserAddress" :address="address" ref="userAddr"></user-address>
 
 		<!-- 订单组件 -->
-		<order-detail :orders="orders" ref="orderDetail"></order-detail>
+		<order-record ref="orderRecord"></order-record>
 	</div>
 </template>
 
 <script>
 	import split from '../split/split';
 	import userAddress from '../address/address';
-	import orderDetail from '../orderDetail/orderDetail';
+	import orderRecord from '../orderRecord/orderRecord';
+	
 	export default {
 	  props: {
 	  	seller: {
@@ -67,7 +68,7 @@
 	  	  this.$refs.userAddr.show();
 	  	},
 	  	submit() {
-      	  this.$refs.orderDetail.show();
+      	  this.$refs.orderRecord.show();
       	},
       	_getUserAddress() {
            this.$http.get('/store/address/selectUserAddress').then((res) => {
@@ -77,15 +78,13 @@
 	    _getUserInfo() {
 	      this.$http.post('/store/user/getUserInfo').then((res) => {
 	      	this.user = res.body;
-	      	console.log(res.body);
-	      	console.log(this.user);
 	      });
 	    }
 	  },
 	  components: {
 	  	split,
 	  	userAddress,
-	  	orderDetail
+	  	orderRecord
 	  }
 	};
 </script>

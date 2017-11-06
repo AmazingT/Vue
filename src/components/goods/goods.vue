@@ -104,7 +104,7 @@
           let height1 = this.listHeight[i];
           let height2 = this.listHeight[i + 1];
           if (!height2 || (this.scrollY >= height1 && this.scrollY < height2)) {
-            this._followScroll(i);
+            // this._followScroll(i);
             return i;
           }
         }
@@ -192,11 +192,11 @@
           this.listHeight.push(height);
         }
       },
-      _followScroll(index) {
-        let menuList = this.$refs.menuList;
-        let el = menuList[index];
-        this.meunScroll.scrollToElement(el, 300, 0, -100);
-      },
+      // _followScroll(index) {
+      //   let menuList = this.$refs.menuList;
+      //   let el = menuList[index];
+      //   this.meunScroll.scrollToElement(el, 300, 0, -100);
+      // },
       // 显示订单页
       showOrders() {
         this.$refs.orders.show();

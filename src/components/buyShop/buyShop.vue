@@ -1,6 +1,7 @@
 <template>
 	<div class="shop-detial">
 		<div class="store-name">
+			<img src="static/img/logo.png" width="25" height="25" />
 			<span class="text">榕会通</span>
 		</div>
 

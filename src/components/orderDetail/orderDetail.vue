@@ -1,14 +1,37 @@
 <template>
 	<transition name="move">
-		<div v-show="orderDetailShow" class="orderDetail">
+		<div v-show="orderShow" class="orderDetail">
 			<!-- 返回 -->
-			<back :top-title="topTitle" :back="orderDetailShow" @goBack="_back"></back>
+			<back :top-title="topTitle" :back="orderShow" @goBack="_back"></back>
 			<div class="orderDetail-content" ref="orderDetail">
         <div class="scroll-wrapper">
-
-          <!-- 订单组件 -->
-          <!-- <buy-shop :orders="orders"></buy-shop> -->
           
+          <!-- 配送信息 -->
+          <div class="delivery-wrapper">
+            <div class="title">配送信息</div>
+            <ul class="list">
+              <li>配送地址：{{ordersList.deliveryadd}}</li>
+              <li>配送人：{{ordersList.deliveryname}}</li>
+              <li>配送电话：{{ordersList.deliveryphone}}</li>
+            </ul>
+          </div>
+
+          <split></split>
+
+          <!-- 订单信息 -->
+          <div class="order-info">
+            <div class="title">订单信息</div>
+            <ul class="list">
+              <li>订单号：{{ordersList.ordercode}}</li>
+              <li>下单时间：{{ordersList.createtime}}</li>
+              <li>支付方式：在线支付</li>
+            </ul>
+          </div>
+
+           <!-- 联系商家 -->
+          <div class="tell">
+            <a href="13116314575">联系商家</a>
+          </div>
         </div>
 			</div>
 		</div>
@@ -18,32 +41,27 @@
 <script>
   import back from '../back/back';
   import buyShop from '../buyShop/buyShop';
+  import split from '../split/split';
   import BScroll from 'better-scroll';
 
-  const TITLE = '订单记录';
+  const TITLE = '订单详情';
 
   export default {
-  	props: {
-      orders: {
-      	type: Array,
-      	default() {
-      	  return [];
-      	}
-      }
-  	},
   	data() {
       return {
-        orderDetailShow: false,
-        topTitle: TITLE
+        orderShow: false,
+        topTitle: TITLE,
+        ordersList: []
       };
   	},
   	methods: {
-  	  show() {
-  	  	this.orderDetailShow = true;
+  	  show(ordersList) {
+        this.ordersList = ordersList;
+  	  	this.orderShow = true;
         this._initScroll();
   	  },
       _back(bool) {
-      	this.orderDetailShow = bool;
+      	this.orderShow = bool;
       },
       _initScroll() {
         this.$nextTick(() => {
@@ -59,7 +77,8 @@
   	},
   	components: {
   	  back,
-  	  buyShop
+  	  buyShop,
+      split
   	}
   };
 </script>
